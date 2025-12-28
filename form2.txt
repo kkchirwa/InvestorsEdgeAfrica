@@ -1,0 +1,158 @@
+<div className="h-[calc(100vh-120px)] w-full rounded-3xl overflow-hidden bg-brand-dark border border-slate-800 shadow-2xl flex flex-col md:flex-row">
+  {/* LEFT: Editor Panel */}
+  <div className="md:w-1/2 p-8 overflow-y-auto scrollbar-thin scrollbar-thumb-brand-blue scrollbar-track-slate-800">
+
+    {uploadError && (
+      <div className="bg-red-500/10 border border-red-500 text-red-400 px-4 py-3 rounded-xl flex items-center gap-3 mb-6">
+        <AlertTriangle size={20} />
+        {uploadError}
+      </div>
+    )}
+
+    <div className="flex items-center gap-3 mb-8">
+      <div className="p-3 bg-brand-blue rounded-xl text-brand-yellow">
+        <Settings size={24} />
+      </div>
+      <div>
+        <h2 className="text-2xl font-black text-white">Summit Editor</h2>
+        <p className="text-blue-200 text-xs">
+          Real-time configuration for the landing page.
+        </p>
+      </div>
+    </div>
+
+    <div className="space-y-8">
+
+      {/* EXPERIENCE */}
+      <div className="p-6 bg-white/5 border border-white/10 rounded-2xl">
+        <h3 className="text-brand-yellow font-bold text-sm uppercase tracking-widest mb-4 flex items-center gap-2">
+          <Sparkles size={16} /> What to Expect
+        </h3>
+
+        <div className="space-y-4">
+          {experienceItems.map((item, index) => (
+            <div
+              key={item.id}
+              className="p-3 bg-slate-900/50 rounded-xl border border-white/5"
+            >
+              <input
+                className="w-full bg-slate-800 border border-slate-700 text-white p-2 rounded text-sm mb-2"
+                value={item.title}
+                onChange={(e) =>
+                  handleSummitChange(e, "experience", "title", index)
+                }
+                placeholder="Title"
+              />
+
+              <textarea
+                className="w-full bg-slate-800 border border-slate-700 text-slate-300 p-2 rounded text-xs"
+                value={item.desc}
+                onChange={(e) =>
+                  handleSummitChange(e, "experience", "desc", index)
+                }
+                rows={2}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* HERO IMAGE */}
+      <div className="p-6 bg-white/5 border border-white/10 rounded-2xl">
+        <h3 className="text-brand-yellow font-bold text-sm uppercase tracking-widest mb-4">
+          Hero Image
+        </h3>
+
+        <div className="h-40 w-full rounded-xl border-2 border-dashed border-white/20 flex items-center justify-center relative">
+          {summitForm.heroImage && (
+            <img
+              src={summitForm.heroImage}
+              className="absolute inset-0 w-full h-full object-cover opacity-60"
+            />
+          )}
+
+          <label className="cursor-pointer z-10">
+            <Upload className="text-brand-yellow w-8 h-8 mx-auto" />
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleSummitHeroUpload}
+            />
+          </label>
+        </div>
+      </div>
+
+      {/* TYPOGRAPHY */}
+      <div className="p-6 bg-white/5 border border-white/10 rounded-2xl space-y-4">
+        <h3 className="text-brand-yellow font-bold text-sm uppercase tracking-widest">
+          Typography
+        </h3>
+
+        <input
+          className="w-full bg-slate-900 border border-slate-700 text-white p-3 rounded-lg"
+          value={summitForm.headline}
+          onChange={(e) =>
+            handleSummitChange(e, "typography", "headline")
+          }
+        />
+
+        <input
+          className="w-full bg-slate-900 border border-slate-700 text-white p-3 rounded-lg"
+          value={summitForm.subHeadline}
+          onChange={(e) =>
+            handleSummitChange(e, "typography", "subHeadline")
+          }
+        />
+
+        <textarea
+          rows={4}
+          className="w-full bg-slate-900 border border-slate-700 text-white p-3 rounded-lg"
+          value={summitForm.description}
+          onChange={(e) =>
+            handleSummitChange(e, "typography", "description")
+          }
+        />
+      </div>
+
+      {/* LOGISTICS */}
+      <div className="p-6 bg-white/5 border border-white/10 rounded-2xl space-y-4">
+        <h3 className="text-brand-yellow font-bold text-sm uppercase tracking-widest">
+          Logistics
+        </h3>
+
+        <input
+          className="w-full bg-slate-900 border border-slate-700 text-white p-3 rounded-lg"
+          value={summitForm.dateText}
+          onChange={(e) =>
+            handleSummitChange(e, "logistics", "dateText")
+          }
+        />
+
+        <input
+          className="w-full bg-slate-900 border border-slate-700 text-white p-3 rounded-lg"
+          value={summitForm.location.venue}
+          onChange={(e) =>
+            handleSummitChange(e, "logistics", "venue")
+          }
+        />
+
+        <input
+          type="datetime-local"
+          className="w-full bg-slate-900 border border-slate-700 text-white p-3 rounded-lg"
+          value={summitForm.targetDate.slice(0, 16)}
+          onChange={(e) =>
+            handleSummitChange(e, "logistics", "countdown")
+          }
+        />
+      </div>
+
+      <button
+        onClick={submitSummit}
+        className="w-full py-4 bg-brand-yellow text-brand-dark font-black rounded-xl"
+      >
+        <Save size={20} /> PUBLISH CHANGES
+      </button>
+
+    </div>
+  </div>
