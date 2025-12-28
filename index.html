@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Investors Edge Africa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                blue: '#0033A0', // Royal Blue
+                lightBlue: '#3B82F6',
+                yellow: '#FFC72C', // Yellow/Gold
+                dark: '#0f172a',
+              }
+            },
+            animation: {
+              'blob': 'blob 10s infinite',
+              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+              'scroll': 'scroll 40s linear infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'float-delayed': 'float 6s ease-in-out 3s infinite',
+              'gradient-xy': 'gradient-xy 15s ease infinite',
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'spin-slow': 'spin 12s linear infinite',
+              'wiggle': 'wiggle 1s ease-in-out infinite',
+              'bounce-subtle': 'bounce-subtle 2s infinite',
+              'draw': 'draw 1.5s ease-out forwards',
+              'marquee': 'marquee 25s linear infinite',
+              'marquee-reverse': 'marquee-reverse 25s linear infinite',
+              'shimmer': 'shimmer 2.5s linear infinite',
+              'reveal-text': 'revealText 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards',
+              'slide-up-curtain': 'slideUpCurtain 0.8s cubic-bezier(0.7, 0, 0.3, 1) forwards',
+            },
+            keyframes: {
+              blob: {
+                '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                '100%': { transform: 'translate(0px, 0px) scale(1)' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-20px)' },
+              },
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(30px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              scroll: {
+                '0%': { transform: 'translateX(0)' },
+                '100%': { transform: 'translateX(-50%)' },
+              },
+              marquee: {
+                '0%': { transform: 'translateX(0%)' },
+                '100%': { transform: 'translateX(-100%)' },
+              },
+              'marquee-reverse': {
+                '0%': { transform: 'translateX(-100%)' },
+                '100%': { transform: 'translateX(0%)' },
+              },
+              shimmer: {
+                '0%': { backgroundPosition: '200% 0' },
+                '100%': { backgroundPosition: '-200% 0' }
+              },
+              'gradient-xy': {
+                '0%, 100%': {
+                  'background-size': '400% 400%',
+                  'background-position': 'left center'
+                },
+                '50%': {
+                  'background-size': '200% 200%',
+                  'background-position': 'right center'
+                }
+              },
+              wiggle: {
+                '0%, 100%': { transform: 'rotate(-3deg)' },
+                '50%': { transform: 'rotate(3deg)' },
+              },
+              'bounce-subtle': {
+                '0%, 100%': { transform: 'translateY(-5%)', animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)' },
+                '50%': { transform: 'translateY(0)', animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)' },
+              },
+              draw: {
+                '0%': { strokeDashoffset: '1000' },
+                '100%': { strokeDashoffset: '0' },
+              },
+              revealText: {
+                '0%': { transform: 'translateY(100%)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+              slideUpCurtain: {
+                '0%': { transform: 'scaleY(1)' },
+                '100%': { transform: 'scaleY(0)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        scroll-behavior: smooth;
+        background-color: #f8fafc;
+        overflow-x: hidden;
+      }
+
+      /* Global Noise Texture */
+      .bg-noise {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 50;
+        opacity: 0.05;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+      
+      /* Scroll Reveal Animation Classes */
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Hide scrollbar for horizontal scroll containers */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      
+      /* --- iOS / VisionOS Glass Styles --- */
+      .ios-glass {
+        background: rgba(255, 255, 255, 0.15); /* Keep distinct but transparent */
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+      }
+      
+      .ios-glass-nav {
+        background: rgba(255, 255, 255, 0.65); /* Slightly frostier for readability */
+        backdrop-filter: blur(20px) saturate(160%);
+        -webkit-backdrop-filter: blur(20px) saturate(160%);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .ios-glass-dark {
+        background: rgba(15, 23, 42, 0.6); /* Deep glass */
+        backdrop-filter: blur(30px) saturate(180%);
+        -webkit-backdrop-filter: blur(30px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+      }
+
+      .ios-card-hover {
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+      }
+      .ios-card-hover:hover {
+        transform: translateY(-5px) scale(1.01);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+      }
+      
+      /* Spotlight Effect Base */
+      .spotlight-card {
+        position: relative;
+        overflow: hidden;
+      }
+      .spotlight-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          800px circle at var(--mouse-x) var(--mouse-y),
+          rgba(255, 255, 255, 0.15),
+          transparent 40%
+        );
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
+      .spotlight-card:hover::before {
+        opacity: 1;
+      }
+      
+      .text-shimmer {
+        background: linear-gradient(
+          to right,
+          #0033A0 20%,
+          #3B82F6 30%,
+          #FFC72C 70%,
+          #0033A0 80%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        background-size: 200% auto;
+        color: transparent;
+      }
+
+      /* 3D Tilt Effect Container */
+      .tilt-card {
+        transform-style: preserve-3d;
+        transform: perspective(1000px);
+      }
+      .tilt-card-inner {
+        transform: translateZ(20px);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.10.0",
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <!-- Global Noise Overlay -->
+    <div class="bg-noise"></div>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
