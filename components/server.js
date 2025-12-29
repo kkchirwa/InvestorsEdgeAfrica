@@ -275,7 +275,7 @@ app.post("/api/tickets", async (req, res) => {
     await newTicket.save();
 
     // Ticket link
-    const ticketLink = `http://localhost:5000/ticket/${ticketId}`;
+    const ticketLink = `https://investorsedgeafrica.onrender.com/ticket/${ticketId}`;
 
     // Send email
     await transporter.sendMail({
