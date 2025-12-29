@@ -64,7 +64,6 @@ router.post("/upload", upload.single("highlightImg"), (req, res) => {
   });
 });
 
-
 export default router;
 
 dotenv.config();
@@ -246,6 +245,11 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL,
     pass: process.env.EMAIL_PASS,
   },
+});
+
+transporter.verify((err) => {
+  if (err) console.error("SMTP ERROR", err);
+  else console.log("SMTP READY");
 });
 
 // ---------------------------
@@ -702,25 +706,29 @@ app.delete("/api/team/:id", async (req, res) => {
   }
 });
 
-app.post("/api/testimonials", upload.single("testimonialImg"), async (req, res) => {
-  try {
-    const { name, role, quote } = req.body;
-    const imageUrl = `uploads/${req.file.filename}`;
+app.post(
+  "/api/testimonials",
+  upload.single("testimonialImg"),
+  async (req, res) => {
+    try {
+      const { name, role, quote } = req.body;
+      const imageUrl = `uploads/${req.file.filename}`;
 
-    const newTestimonial = new Testimonial({
-      id: uuidv4(),
-      name,
-      role,
-      quote,
-      imageUrl,
-    });
-    await newTestimonial.save();
-    res.json({ success: true, data: newTestimonial });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to add testimonial" });
+      const newTestimonial = new Testimonial({
+        id: uuidv4(),
+        name,
+        role,
+        quote,
+        imageUrl,
+      });
+      await newTestimonial.save();
+      res.json({ success: true, data: newTestimonial });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Failed to add testimonial" });
+    }
   }
-});
+);
 
 app.get("/api/testimonials", async (req, res) => {
   try {
@@ -871,8 +879,6 @@ app.delete("/api/highlights/:id", async (req, res) => {
     res.status(500).json({ success: false, error: "Delete failed" });
   }
 });
-
-
 
 // ---------------------------
 // START SERVER
