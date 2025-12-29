@@ -227,11 +227,15 @@ const Admin: React.FC = () => {
 
   const submitSponsor = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!file) {
+      alert("Please select an image");
+      return;
+    }
     const formData = new FormData();
     formData.append("name", newSponsor.name);
     formData.append("logo", file);
 
-    alert(file?.name);
     try {
       const res = await fetch(
         "https://investorsedgeafrica.onrender.com/api/sponsors",
@@ -255,12 +259,16 @@ const Admin: React.FC = () => {
 
   const submitSpeaker = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!file) {
+      alert("Please select an image");
+      return;
+    }
     const formData = new FormData();
     formData.append("name", newSpeaker.name);
     formData.append("role", newSpeaker.role);
     formData.append("speakerImg", file);
 
-    alert(file?.name);
     try {
       const res = await fetch(
         "https://investorsedgeafrica.onrender.com/api/speakers",
@@ -284,13 +292,16 @@ const Admin: React.FC = () => {
 
   const submitTeamMember = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!file) {
+      alert("Please select an image");
+      return;
+    }
     const formData = new FormData();
     formData.append("name", newTeamMember.name);
     formData.append("role", newTeamMember.role);
     formData.append("bio", newTeamMember.bio);
     formData.append("teamImg", file);
 
-    alert(file?.name);
     try {
       const res = await fetch(
         "https://investorsedgeafrica.onrender.com/api/team-members",
@@ -348,6 +359,11 @@ const Admin: React.FC = () => {
 
   const submitStory = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!file) {
+      alert("Please select an image");
+      return;
+    }
     const formData = new FormData();
     formData.append("title", newStory.title);
     formData.append("category", newStory.category);
@@ -355,7 +371,6 @@ const Admin: React.FC = () => {
     formData.append("date", new Date().toLocaleDateString());
     formData.append("storyImg", file);
 
-    alert(file?.name);
     try {
       const res = await fetch(
         "https://investorsedgeafrica.onrender.com/api/stories",
@@ -385,11 +400,14 @@ const Admin: React.FC = () => {
 
   const submitHighlight = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!file) {
+      alert("Please select an image");
+      return;
+    }
     const formData = new FormData();
     formData.append("name", newHighlight.caption);
     formData.append("highlightImg", file);
 
-    alert(file?.name);
     try {
       const res = await fetch(
         "https://investorsedgeafrica.onrender.com/api/highlights",
@@ -1465,7 +1483,7 @@ const Admin: React.FC = () => {
                           />
                         ) : (
                           <img
-                            src={`components/${h.imageUrl}`}
+                            src={h.imageUrl}
                             className="w-full h-full object-cover"
                             alt={h.caption}
                           />
