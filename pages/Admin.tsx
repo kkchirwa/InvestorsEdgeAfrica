@@ -589,7 +589,7 @@ const Admin: React.FC = () => {
               className="w-full p-3 border rounded-lg"
               placeholder="Enter Password"
               value={password}
-              onChange={(e) => setPassword(e.target.valu  e)}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <button className="w-full bg-brand-blue text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition">
               Login

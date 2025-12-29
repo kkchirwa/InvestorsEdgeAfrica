@@ -7,62 +7,10 @@ import { v4 as uuidv4 } from "uuid";
 import QRCode from "qrcode";
 import dotenv from "dotenv";
 import { University } from "lucide-react";
-import multer from "multer";
-import path from "path";
-import fs from "fs";
+import upload from "./config/multerCloudinary.js";
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination: "uploads/",
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
-
-const upload = multer({ storage });
-
-router.post("/upload", upload.single("logo"), (req, res) => {
-  res.json({
-    url: `uploads/${req.file.filename}`,
-  });
-});
-
-router.post("/upload", upload.single("sponsorImg"), (req, res) => {
-  res.json({
-    url: `uploads/${req.file.filename}`,
-  });
-});
-
-router.post("/upload", upload.single("speakerImg"), (req, res) => {
-  res.json({
-    url: `uploads/${req.file.filename}`,
-  });
-});
-
-router.post("/upload", upload.single("teamImg"), (req, res) => {
-  res.json({
-    url: `uploads/${req.file.filename}`,
-  });
-});
-
-router.post("/upload", upload.single("testimonialImg"), (req, res) => {
-  res.json({
-    url: `uploads/${req.file.filename}`,
-  });
-});
-
-router.post("/upload", upload.single("storyImg"), (req, res) => {
-  res.json({
-    url: `uploads/${req.file.filename}`,
-  });
-});
-
-router.post("/upload", upload.single("highlightImg"), (req, res) => {
-  res.json({
-    url: `uploads/${req.file.filename}`,
-  });
-});
 
 export default router;
 
@@ -544,7 +492,7 @@ app.get("/api/summit-info", async (req, res) => {
 app.post("/api/sponsors", upload.single("logo"), async (req, res) => {
   try {
     const { name } = req.body;
-    const logoUrl = `uploads/${req.file.filename}`;
+    const logoUrl = req.file.path;
 
     const newSponsor = new Sponsor({
       id: uuidv4(),
@@ -582,10 +530,6 @@ app.delete("/api/sponsors/:id", async (req, res) => {
       const filePath = path.join(process.cwd(), sponsor.logoUrl);
 
       console.log("Deleting file at:", filePath);
-
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
     }
     await Sponsor.findByIdAndDelete(id);
 
@@ -599,7 +543,7 @@ app.delete("/api/sponsors/:id", async (req, res) => {
 app.post("/api/speakers", upload.single("speakerImg"), async (req, res) => {
   try {
     const { name, role } = req.body;
-    const imageUrl = `uploads/${req.file.filename}`;
+    const imageUrl = req.file.path;
     const newSpeaker = new Speaker({
       id: uuidv4(),
       name,
@@ -654,7 +598,7 @@ app.delete("/api/speakers/:id", async (req, res) => {
 app.post("/api/team-members", upload.single("teamImg"), async (req, res) => {
   try {
     const { name, role, bio } = req.body;
-    const imageUrl = `uploads/${req.file.filename}`;
+    const imageUrl = req.file.path;
     const newTeamMember = new TeamMember({
       id: uuidv4(),
       name,
@@ -712,7 +656,7 @@ app.post(
   async (req, res) => {
     try {
       const { name, role, quote } = req.body;
-      const imageUrl = `uploads/${req.file.filename}`;
+      const imageUrl = req.file.path;
 
       const newTestimonial = new Testimonial({
         id: uuidv4(),
@@ -770,7 +714,7 @@ app.delete("/api/testimonials/:id", async (req, res) => {
 app.post("/api/stories", upload.single("storyImg"), async (req, res) => {
   try {
     const { title, categories, excerpt, date } = req.body;
-    const logoUrl = `uploads/${req.file.filename}`;
+    const logoUrl = req.file.path;
 
     const newStory = new Story({
       id: uuidv4(),
@@ -828,7 +772,7 @@ app.delete("/api/stories/:id", async (req, res) => {
 app.post("/api/highlights", upload.single("highlightImg"), async (req, res) => {
   try {
     const { name } = req.body;
-    const imageUrl = `uploads/${req.file.filename}`;
+    const imageUrl = req.file.path;
 
     const newHighlight = new Highlight({
       id: uuidv4(),
