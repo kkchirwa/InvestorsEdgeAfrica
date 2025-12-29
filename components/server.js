@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import QRCode from "qrcode";
 import dotenv from "dotenv";
 import upload from "./config/multerCloudinary.js";
+import { Resend } from 'resend';
 
 
 dotenv.config();
@@ -180,24 +181,8 @@ app.get("/api/messages", async (req, res) => {
 // ---------------------------
 // NODEMAILER EMAIL SETUP
 // ---------------------------
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // MUST be false for 587
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
 
-
-transporter.verify((err) => {
-  if (err) console.error("SMTP ERROR", err);
-  else console.log("SMTP READY");
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // ---------------------------
 // CREATE TICKET ENDPOINT
@@ -232,7 +217,7 @@ app.post("/api/tickets", async (req, res) => {
 
     // Send email
     await transporter.sendMail({
-      from: `"Event Tickets" <${process.env.EMAIL}>`,
+      from: `"Event Tickets" <onboarding@resend.dev>`,
       to: email,
       subject: "Your Event Ticket",
       html: `
