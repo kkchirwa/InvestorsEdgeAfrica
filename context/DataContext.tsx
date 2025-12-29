@@ -396,7 +396,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const fetchTestimonials = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/testimonials");
+      const res = await fetch("https://investorsedgeafrica.onrender.com/api/testimonials");
       const data = await res.json();
       setTestimonials(data);
     } catch (err) {
@@ -411,7 +411,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const fetchStories = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/stories");
+      const res = await fetch("https://investorsedgeafrica.onrender.com/api/stories");
       const data = await res.json();
       setStories(data);
     } catch (err) {
@@ -427,7 +427,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const fetchSpeakers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/speakers");
+      const res = await fetch("https://investorsedgeafrica.onrender.com/api/speakers");
       const data = await res.json();
       setSpeakers(data);
     } catch (err) {
@@ -443,7 +443,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const fetchTeamMembers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/team");
+      const res = await fetch("https://investorsedgeafrica.onrender.com/api/team");
       const data = await res.json();
       setTeamMembers(data);
     } catch (err) {
@@ -459,7 +459,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const fetchHighlights = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/highlights");
+      const res = await fetch("https://investorsedgeafrica.onrender.com/api/highlights");
       const data = await res.json();
       setHighlights(data);
     } catch (err) {
@@ -475,7 +475,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const fetchSponsors = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/sponsors");
+      const res = await fetch("https://investorsedgeafrica.onrender.com/api/sponsors");
       const data = await res.json();
       setSponsors(data);
       alert(data.logo.name);
@@ -499,7 +499,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const fetchSummitInfo = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/summit-info");
+      const res = await fetch("https://investorsedgeafrica.onrender.com/api/summit-info");
       const data = await res.json();
       setSummitConfig(data);
     } catch (err) {
@@ -517,7 +517,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
     const fetchRegistrationConfig = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/api/registration-config"
+          "https://investorsedgeafrica.onrender.com/api/registration-config"
         );
         const data = await res.json();
         setRegistrationConfig(data);
@@ -606,7 +606,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
     const ans = confirm("Are you sure you want to delete this testimonial?");
     if (!ans) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/testimonials/${id}`, {
+      const res = await fetch(`https://investorsedgeafrica.onrender.com/api/testimonials/${id}`, {
         method: "DELETE",
       });
 
@@ -632,7 +632,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
     const ans = confirm("Are you sure you want to delete this story?");
     if (!ans) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/stories/${id}`, {
+      const res = await fetch(`https://investorsedgeafrica.onrender.com/api/stories/${id}`, {
         method: "DELETE",
       });
 
@@ -658,7 +658,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
     const ans = confirm("Are you sure you want to delete this speaker?");
     if (!ans) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/speakers/${id}`, {
+      const res = await fetch(`https://investorsedgeafrica.onrender.com/api/speakers/${id}`, {
         method: "DELETE",
       });
 
@@ -684,7 +684,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
     const ans = confirm("Are you sure you want to delete this team member?");
     if (!ans) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/team/${id}`, {
+      const res = await fetch(`https://investorsedgeafrica.onrender.com/api/team/${id}`, {
         method: "DELETE",
       });
 
@@ -710,7 +710,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
   const ans = confirm("Are you sure you want to delete this highlight?");
     if (!ans) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/highlights/${id}`, {
+      const res = await fetch(`https://investorsedgeafrica.onrender.com/api/highlights/${id}`, {
         method: "DELETE",
       });
 
@@ -736,7 +736,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
     const ans = confirm("Are you sure you want to delete this sponsor?");
     if (!ans) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/sponsors/${id}`, {
+      const res = await fetch(`https://investorsedgeafrica.onrender.com/api/sponsors/${id}`, {
         method: "DELETE",
       });
 
