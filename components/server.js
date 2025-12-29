@@ -239,7 +239,9 @@ app.get("/api/messages", async (req, res) => {
 // NODEMAILER EMAIL SETUP
 // ---------------------------
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL,
     pass: process.env.EMAIL_PASS,
