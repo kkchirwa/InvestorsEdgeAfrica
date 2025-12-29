@@ -113,7 +113,7 @@ const Admin: React.FC = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/messages");
+        const res = await fetch("https://investorsedgeafrica.onrender.com/api/messages");
         const data = await res.json();
         setMessages(data);
       } catch (err) {
@@ -127,7 +127,7 @@ const Admin: React.FC = () => {
     useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/tickets");
+        const res = await fetch("https://investorsedgeafrica.onrender.com/api/tickets");
         const data = await res.json();
         setRegistrations(data);
       } catch (err) {
@@ -176,7 +176,7 @@ const Admin: React.FC = () => {
   const submitSummit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/api/summit-info", {
+      const res = await fetch("https://investorsedgeafrica.onrender.com/api/summit-info", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(summitForm),
@@ -196,7 +196,7 @@ const Admin: React.FC = () => {
   const submitRegistrationConfig = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/api/registration-config", {
+      const res = await fetch("https://investorsedgeafrica.onrender.com/api/registration-config", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(regConfigForm),
@@ -223,7 +223,7 @@ const Admin: React.FC = () => {
 
       alert(file?.name);
     try {
-      const res = await fetch("http://localhost:5000/api/sponsors", {
+      const res = await fetch("https://investorsedgeafrica.onrender.com/api/sponsors", {
         method: "POST",
         body: formData,
       });
@@ -249,7 +249,7 @@ const Admin: React.FC = () => {
 
       alert(file?.name);
     try {
-      const res = await fetch("http://localhost:5000/api/speakers", {
+      const res = await fetch("https://investorsedgeafrica.onrender.com/api/speakers", {
         method: "POST",
         body: formData,
       });
@@ -276,7 +276,7 @@ const Admin: React.FC = () => {
 
       alert(file?.name);
     try {
-      const res = await fetch("http://localhost:5000/api/team-members", {
+      const res = await fetch("https://investorsedgeafrica.onrender.com/api/team-members", {
         method: "POST",
         body: formData,
       });
@@ -303,7 +303,7 @@ const Admin: React.FC = () => {
 
       alert(file?.name);
     try {
-      const res = await fetch("http://localhost:5000/api/testimonials", {
+      const res = await fetch("https://investorsedgeafrica.onrender.com/api/testimonials", {
         method: "POST",
         body: formData,
       });
@@ -331,7 +331,7 @@ const Admin: React.FC = () => {
 
       alert(file?.name);
     try {
-      const res = await fetch("http://localhost:5000/api/stories", {
+      const res = await fetch("https://investorsedgeafrica.onrender.com/api/stories", {
         method: "POST",
         body: formData,
       });
@@ -356,7 +356,7 @@ const Admin: React.FC = () => {
 
       alert(file?.name);
     try {
-      const res = await fetch("http://localhost:5000/api/highlights", {
+      const res = await fetch("https://investorsedgeafrica.onrender.com/api/highlights", {
         method: "POST",
         body: formData,
       });
