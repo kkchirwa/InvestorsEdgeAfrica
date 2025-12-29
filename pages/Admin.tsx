@@ -587,9 +587,9 @@ const Admin: React.FC = () => {
             <input
               type="password"
               className="w-full p-3 border rounded-lg"
-              placeholder="Enter Password (admin123)"
+              placeholder="Enter Password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.valu  e)}
             />
             <button className="w-full bg-brand-blue text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition">
               Login
