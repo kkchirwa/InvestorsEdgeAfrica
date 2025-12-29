@@ -7,8 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import QRCode from "qrcode";
 import dotenv from "dotenv";
 import upload from "./config/multerCloudinary.js";
-import { Resend } from 'resend';
-
+import { Resend } from "resend";
 
 dotenv.config();
 
@@ -216,7 +215,7 @@ app.post("/api/tickets", async (req, res) => {
     const ticketLink = `https://investorsedgeafrica.onrender.com/ticket/${ticketId}`;
 
     // Send email
-    await transporter.sendMail({
+    await resend.emails.send({
       from: `"Event Tickets" <onboarding@resend.dev>`,
       to: email,
       subject: "Your Event Ticket",
