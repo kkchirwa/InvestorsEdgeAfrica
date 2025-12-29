@@ -216,7 +216,7 @@ app.post("/api/tickets", async (req, res) => {
 
     // Send email
     await resend.emails.send({
-      from: "Event Tickets <onboarding@resend.dev>",
+      from: "onboarding@resend.dev",
       to: email,
       subject: "Your Event Ticket",
       html: `
