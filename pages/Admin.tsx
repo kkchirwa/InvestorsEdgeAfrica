@@ -917,7 +917,7 @@ const Admin: React.FC = () => {
                       className="flex flex-col items-center justify-center p-4 border rounded-xl bg-white shadow-sm relative group h-32"
                     >
                       <img
-                        src={`components/${s.logoUrl}`}
+                        src={s.logoUrl}
                         alt={s.name}
                         className="max-w-full max-h-20 object-contain"
                       />
@@ -1005,7 +1005,7 @@ const Admin: React.FC = () => {
                       className="flex items-center gap-4 p-4 border rounded-xl bg-white shadow-sm"
                     >
                       <img
-                        src={`components/${s.imageUrl}`}
+                        src={s.imageUrl}
                         alt={s.name}
                         className="w-16 h-16 rounded-full object-cover"
                       />
@@ -1111,7 +1111,7 @@ const Admin: React.FC = () => {
                       className="flex items-start gap-4 p-4 border rounded-xl bg-white shadow-sm"
                     >
                       <img
-                        src={`components/${m.imageUrl}`}
+                        src={m.imageUrl}
                         alt={m.name}
                         className="w-16 h-16 rounded-full object-cover"
                       />
@@ -1222,7 +1222,7 @@ const Admin: React.FC = () => {
                     >
                       <div className="flex items-center gap-3">
                         <img
-                          src={`components/${t.imageUrl}`}
+                          src={t.imageUrl}
                           className="w-10 h-10 rounded-full"
                           alt=""
                         />

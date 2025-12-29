@@ -6,13 +6,8 @@ import mongoose from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 import QRCode from "qrcode";
 import dotenv from "dotenv";
-import { University } from "lucide-react";
 import upload from "./config/multerCloudinary.js";
 
-const router = express.Router();
-
-
-export default router;
 
 dotenv.config();
 
@@ -525,12 +520,6 @@ app.delete("/api/sponsors/:id", async (req, res) => {
     if (!sponsor) {
       return res.status(404).json({ success: false, message: "Not found" });
     }
-
-    if (sponsor.logoUrl) {
-      const filePath = path.join(process.cwd(), sponsor.logoUrl);
-
-      console.log("Deleting file at:", filePath);
-    }
     await Sponsor.findByIdAndDelete(id);
 
     res.json({ success: true, message: "Deleted successfully" });
@@ -575,16 +564,6 @@ app.delete("/api/speakers/:id", async (req, res) => {
     const speaker = await Speaker.findById(id);
     if (!speaker) {
       return res.status(404).json({ success: false, message: "Not found" });
-    }
-
-    if (speaker.imageUrl) {
-      const filePath = path.join(process.cwd(), speaker.imageUrl);
-
-      console.log("Deleting file at:", filePath);
-
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
     }
     await Speaker.findByIdAndDelete(id);
 
@@ -631,16 +610,6 @@ app.delete("/api/team/:id", async (req, res) => {
     const teamMember = await TeamMember.findById(id);
     if (!teamMember) {
       return res.status(404).json({ success: false, message: "Not found" });
-    }
-
-    if (teamMember.imageUrl) {
-      const filePath = path.join(process.cwd(), teamMember.imageUrl);
-
-      console.log("Deleting file at:", filePath);
-
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
     }
     await TeamMember.findByIdAndDelete(id);
     res.json({ success: true, message: "Deleted successfully" });
@@ -692,16 +661,6 @@ app.delete("/api/testimonials/:id", async (req, res) => {
     if (!testimonial) {
       return res.status(404).json({ success: false, message: "Not found" });
     }
-
-    if (testimonial.imageUrl) {
-      const filePath = path.join(process.cwd(), testimonial.imageUrl);
-
-      console.log("Deleting file at:", filePath);
-
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-    }
     await Testimonial.findByIdAndDelete(id);
 
     res.json({ success: true, message: "Deleted successfully" });
@@ -750,16 +709,6 @@ app.delete("/api/stories/:id", async (req, res) => {
     if (!story) {
       return res.status(404).json({ success: false, message: "Not found" });
     }
-
-    if (story.logoUrl) {
-      const filePath = path.join(process.cwd(), story.logoUrl);
-
-      console.log("Deleting file at:", filePath);
-
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-    }
     await Story.findByIdAndDelete(id);
 
     res.json({ success: true, message: "Deleted successfully" });
@@ -804,16 +753,6 @@ app.delete("/api/highlights/:id", async (req, res) => {
     const highlight = await Highlight.findById(id);
     if (!highlight) {
       return res.status(404).json({ success: false, message: "Not found" });
-    }
-
-    if (highlight.imageUrl) {
-      const filePath = path.join(process.cwd(), highlight.imageUrl);
-
-      console.log("Deleting file at:", filePath);
-
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
     }
     await Highlight.findByIdAndDelete(id);
 

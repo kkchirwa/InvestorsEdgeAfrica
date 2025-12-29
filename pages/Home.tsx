@@ -310,7 +310,7 @@ const Home: React.FC = () => {
                     <Quote className="text-brand-blue w-8 h-8 mb-6" />
                     <p className="text-slate-700 text-lg mb-8 leading-relaxed font-medium">"{item.quote}"</p>
                     <div className="flex items-center gap-4 mt-auto border-t border-slate-200/50 pt-4">
-                       <img src={`components/${item.imageUrl}`} alt={item.author} className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-md" />
+                       <img src={item.imageUrl} alt={item.author} className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-md" />
                        <div><p className="text-slate-900 font-bold text-sm">{item.author}</p><p className="text-slate-500 text-xs font-bold uppercase">{item.role}</p></div>
                     </div>
                  </div>
@@ -331,7 +331,7 @@ const Home: React.FC = () => {
                   <div key={post.id} className="ios-glass rounded-[2rem] overflow-hidden ios-card-hover p-2 group cursor-pointer">
                      <div className="h-48 overflow-hidden relative rounded-[1.5rem]">
                       
-                        <img src={`components/${post.logoUrl}`} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                        <img src={post.logoUrl} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                         <div className="absolute top-4 left-4 ios-glass-dark px-3 py-1 rounded-full text-xs font-bold text-white uppercase backdrop-blur-md border border-white/10">{post.category}</div>
                      </div>
                      <div className="p-6">
