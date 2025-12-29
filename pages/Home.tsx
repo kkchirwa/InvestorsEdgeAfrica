@@ -331,7 +331,7 @@ const Home: React.FC = () => {
                   <div key={post.id} className="ios-glass rounded-[2rem] overflow-hidden ios-card-hover p-2 group cursor-pointer">
                      <div className="h-48 overflow-hidden relative rounded-[1.5rem]">
                       
-                        <img src={`https://investorsedgeafrica.onrender.com/${post.logoUrl}`} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                        <img src={`components/${post.logoUrl}`} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                         <div className="absolute top-4 left-4 ios-glass-dark px-3 py-1 rounded-full text-xs font-bold text-white uppercase backdrop-blur-md border border-white/10">{post.category}</div>
                      </div>
                      <div className="p-6">
