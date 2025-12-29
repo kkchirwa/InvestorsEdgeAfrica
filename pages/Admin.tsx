@@ -113,7 +113,9 @@ const Admin: React.FC = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const res = await fetch("https://investorsedgeafrica.onrender.com/api/messages");
+        const res = await fetch(
+          "https://investorsedgeafrica.onrender.com/api/messages"
+        );
         const data = await res.json();
         setMessages(data);
       } catch (err) {
@@ -124,10 +126,12 @@ const Admin: React.FC = () => {
     fetchMessages();
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const res = await fetch("https://investorsedgeafrica.onrender.com/api/tickets");
+        const res = await fetch(
+          "https://investorsedgeafrica.onrender.com/api/tickets"
+        );
         const data = await res.json();
         setRegistrations(data);
       } catch (err) {
@@ -176,11 +180,14 @@ const Admin: React.FC = () => {
   const submitSummit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch("https://investorsedgeafrica.onrender.com/api/summit-info", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(summitForm),
-      });
+      const res = await fetch(
+        "https://investorsedgeafrica.onrender.com/api/summit-info",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(summitForm),
+        }
+      );
       const data = await res.json();
       if (data.success) {
         alert("Summit info updated!");
@@ -196,11 +203,14 @@ const Admin: React.FC = () => {
   const submitRegistrationConfig = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch("https://investorsedgeafrica.onrender.com/api/registration-config", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(regConfigForm),
-      });
+      const res = await fetch(
+        "https://investorsedgeafrica.onrender.com/api/registration-config",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(regConfigForm),
+        }
+      );
       const data = await res.json();
       if (data.success) {
         alert("Registration config updated!");
@@ -218,15 +228,18 @@ const Admin: React.FC = () => {
   const submitSponsor = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
-      formData.append("name", newSponsor.name);
-      formData.append("logo", file);
+    formData.append("name", newSponsor.name);
+    formData.append("logo", file);
 
-      alert(file?.name);
+    alert(file?.name);
     try {
-      const res = await fetch("https://investorsedgeafrica.onrender.com/api/sponsors", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        "https://investorsedgeafrica.onrender.com/api/sponsors",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const data = await res.json();
       if (data.success) {
         fetchSponsors();
@@ -243,16 +256,19 @@ const Admin: React.FC = () => {
   const submitSpeaker = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
-      formData.append("name", newSpeaker.name);
-      formData.append("role", newSpeaker.role);
-      formData.append("speakerImg", file);
+    formData.append("name", newSpeaker.name);
+    formData.append("role", newSpeaker.role);
+    formData.append("speakerImg", file);
 
-      alert(file?.name);
+    alert(file?.name);
     try {
-      const res = await fetch("https://investorsedgeafrica.onrender.com/api/speakers", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        "https://investorsedgeafrica.onrender.com/api/speakers",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const data = await res.json();
       if (data.success) {
         fetchSpeakers();
@@ -266,20 +282,23 @@ const Admin: React.FC = () => {
     }
   };
 
-    const submitTeamMember = async (e: React.FormEvent) => {
+  const submitTeamMember = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
-      formData.append("name", newTeamMember.name);
-      formData.append("role", newTeamMember.role);
-      formData.append("bio", newTeamMember.bio);  
-      formData.append("teamImg", file);
+    formData.append("name", newTeamMember.name);
+    formData.append("role", newTeamMember.role);
+    formData.append("bio", newTeamMember.bio);
+    formData.append("teamImg", file);
 
-      alert(file?.name);
+    alert(file?.name);
     try {
-      const res = await fetch("https://investorsedgeafrica.onrender.com/api/team-members", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        "https://investorsedgeafrica.onrender.com/api/team-members",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const data = await res.json();
       if (data.success) {
         fetchTeamMembers();
@@ -293,20 +312,27 @@ const Admin: React.FC = () => {
     }
   };
 
-    const submitTestimonials = async (e: React.FormEvent) => {
+  const submitTestimonials = async (e: React.FormEvent) => {
     e.preventDefault();
-    const formData = new FormData();
-      formData.append("name", newTestimonial.author);
-      formData.append("role", newTestimonial.role);
-      formData.append("quote", newTestimonial.quote);
-      formData.append("testimonialImg", file);
 
-      alert(file?.name);
+    if (!file) {
+      alert("Please select an image");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("name", newTestimonial.author);
+    formData.append("role", newTestimonial.role);
+    formData.append("quote", newTestimonial.quote);
+    formData.append("testimonialImg", file);
+
     try {
-      const res = await fetch("https://investorsedgeafrica.onrender.com/api/testimonials", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        "https://investorsedgeafrica.onrender.com/api/testimonials",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const data = await res.json();
       if (data.success) {
         fetchTestimonials();
@@ -320,25 +346,34 @@ const Admin: React.FC = () => {
     }
   };
 
-    const submitStory = async (e: React.FormEvent) => {
+  const submitStory = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
-      formData.append("title", newStory.title);
-      formData.append("category", newStory.category);
-      formData.append("excerpt", newStory.excerpt);
-      formData.append("date", new Date().toLocaleDateString());
-      formData.append("storyImg", file);
+    formData.append("title", newStory.title);
+    formData.append("category", newStory.category);
+    formData.append("excerpt", newStory.excerpt);
+    formData.append("date", new Date().toLocaleDateString());
+    formData.append("storyImg", file);
 
-      alert(file?.name);
+    alert(file?.name);
     try {
-      const res = await fetch("https://investorsedgeafrica.onrender.com/api/stories", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        "https://investorsedgeafrica.onrender.com/api/stories",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const data = await res.json();
       if (data.success) {
         fetchStories();
-        setNewStory({ title: "", category: "", excerpt: "", date: "", image: "" });
+        setNewStory({
+          title: "",
+          category: "",
+          excerpt: "",
+          date: "",
+          image: "",
+        });
       } else {
         alert("Failed to add story");
       }
@@ -348,18 +383,21 @@ const Admin: React.FC = () => {
     }
   };
 
-    const submitHighlight = async (e: React.FormEvent) => {
+  const submitHighlight = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
-      formData.append("name", newHighlight.caption);
-      formData.append("highlightImg", file);
+    formData.append("name", newHighlight.caption);
+    formData.append("highlightImg", file);
 
-      alert(file?.name);
+    alert(file?.name);
     try {
-      const res = await fetch("https://investorsedgeafrica.onrender.com/api/highlights", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        "https://investorsedgeafrica.onrender.com/api/highlights",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const data = await res.json();
       if (data.success) {
         fetchHighlights();
@@ -372,8 +410,6 @@ const Admin: React.FC = () => {
       alert("Something went wrong. Try again. rr");
     }
   };
-
-
 
   // Sync local form with global config
   useEffect(() => {
@@ -388,60 +424,58 @@ const Admin: React.FC = () => {
   };
 
   const fileToBase64 = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
 
-    reader.onload = () => {
-      resolve(reader.result as string);
-    };
+      reader.onload = () => {
+        resolve(reader.result as string);
+      };
 
-    reader.onerror = () => {
-      reject("Failed to convert file");
-    };
+      reader.onerror = () => {
+        reject("Failed to convert file");
+      };
 
-    reader.readAsDataURL(file); // <-- THIS creates base64
-  });
-};
-
+      reader.readAsDataURL(file); // <-- THIS creates base64
+    });
+  };
 
   // Generic handler for form file inputs
   const handleFileChange = (
-  e: React.ChangeEvent<HTMLInputElement>,
-  setter: React.Dispatch<any>,
-  fieldName: string
-) => {
-  const file = e.target.files?.[0];
-  if (!file) return;
+    e: React.ChangeEvent<HTMLInputElement>,
+    setter: React.Dispatch<any>,
+    fieldName: string
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-  const target = e.target as HTMLInputElement & { files: FileList }; setFile(target.files[0]);
-
-  setter((prev: any) => ({
-    ...prev,
-    [fieldName]: file.name, // 👈 field-specific
-  }));
-};
-
-
-  const handleHeroFileChange = async (
-  e: React.ChangeEvent<HTMLInputElement>,
-  setter: React.Dispatch<any>,
-  fieldName: string
-) => {
-  const file = e.target.files?.[0];
-  if (!file) return;
-
-  try {
-    const base64 = await fileToBase64(file);
+    const target = e.target as HTMLInputElement & { files: FileList };
+    setFile(target.files[0]);
 
     setter((prev: any) => ({
       ...prev,
-      [fieldName]: base64, // <-- store base64
+      [fieldName]: file.name, // 👈 field-specific
     }));
-  } catch (err) {
-    console.error(err);
-  }
-};
+  };
 
+  const handleHeroFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setter: React.Dispatch<any>,
+    fieldName: string
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const base64 = await fileToBase64(file);
+
+      setter((prev: any) => ({
+        ...prev,
+        [fieldName]: base64, // <-- store base64
+      }));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleSummitHeroUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUploadError(null);
@@ -785,7 +819,10 @@ const Admin: React.FC = () => {
                       type="file"
                       accept="image/*"
                       className="absolute inset-0 opacity-0 cursor-pointer"
-                      onChange={(e) => { handleRegHeroUpload; handleHeroFileChange(e, setRegConfigForm, "heroImage"); }}
+                      onChange={(e) => {
+                        handleRegHeroUpload;
+                        handleHeroFileChange(e, setRegConfigForm, "heroImage");
+                      }}
                     />
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none bg-black/20 text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity">
                       Change Image
@@ -980,7 +1017,9 @@ const Admin: React.FC = () => {
                           type="file"
                           accept="image/*"
                           className="hidden"
-                          onChange={(e) => handleFileChange(e, setNewSpeaker , "image")}
+                          onChange={(e) =>
+                            handleFileChange(e, setNewSpeaker, "image")
+                          }
                         />
                       </label>
                     </div>
@@ -988,9 +1027,7 @@ const Admin: React.FC = () => {
                       * High Quality Uploads Enabled
                     </p>
                     <button
-                      onClick={
-                        submitSpeaker
-                      }
+                      onClick={submitSpeaker}
                       className="w-full bg-brand-blue text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-blue-800 transition"
                     >
                       <Plus size={18} /> Add Speaker
@@ -1203,7 +1240,9 @@ const Admin: React.FC = () => {
                         type="file"
                         accept="image/*"
                         className="hidden"
-                        onChange={(e) => handleFileChange(e, setNewTestimonial, "image")}
+                        onChange={(e) =>
+                          handleFileChange(e, setNewTestimonial, "image")
+                        }
                       />
                     </label>
                   </div>
@@ -1293,7 +1332,9 @@ const Admin: React.FC = () => {
                         type="file"
                         accept="image/*"
                         className="hidden"
-                        onChange={(e) => handleFileChange(e, setNewStory, "image")}
+                        onChange={(e) =>
+                          handleFileChange(e, setNewStory, "image")
+                        }
                       />
                     </label>
                   </div>
@@ -1551,7 +1592,14 @@ const Admin: React.FC = () => {
                             type="file"
                             accept="image/*"
                             className="hidden"
-                            onChange={(e) => {handleSummitHeroUpload; handleHeroFileChange(e, setSummitForm, "heroImage")}}
+                            onChange={(e) => {
+                              handleSummitHeroUpload;
+                              handleHeroFileChange(
+                                e,
+                                setSummitForm,
+                                "heroImage"
+                              );
+                            }}
                           />
                         </label>
                       </div>
