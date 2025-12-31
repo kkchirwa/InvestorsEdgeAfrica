@@ -32,6 +32,11 @@ const ticketSchema = new mongoose.Schema({
   institution: String,
   course: String,
   ticketId: String,
+  eventId: String,
+  amount: Number,
+  status: { type: String, enum: ["pending", "paid"], default: "pending" },
+  transactionId: String,
+  createdAt: { type: Date, default: Date.now },
   qrCode: String, // store QR code
   used: { type: Boolean, default: false },
 });
@@ -120,10 +125,6 @@ const summitInfoSchema = new mongoose.Schema({
       value: String,
       label: String,
     },
-    {
-      value: String,
-      label: String,
-    },
   ],
 });
 
@@ -186,56 +187,90 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // ---------------------------
 // CREATE TICKET ENDPOINT
 // ---------------------------
-app.post("/api/tickets", async (req, res) => {
-  try {
-    const { fullName, email, institution, course } = req.body;
 
-    if (!fullName || !email) {
-      return res.status(400).json({ error: "Full name and email required" });
+app.post("/api/paychangu/initiate", async (req, res) => {
+  try {
+    const { fullName, email, institution, course, phone, method } = req.body;
+
+    const reference = uuidv4();
+
+    const response = await fetch("https://api.paychangu.com/mobile-money/pay", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.PAYCHANGU_SECRET_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        amount: 5000, // example ticket price
+        currency: "MWK",
+        phone_number: phone,
+        payment_method: method, // airtel_money | mpamba
+        reference,
+        callback_url: process.env.PAYCHANGU_CALLBACK_URL,
+        metadata: {
+          fullName,
+          email,
+          institution,
+          course,
+        },
+      }),
+    });
+
+    const data = await response.json();
+
+    res.json({
+      success: true,
+      reference,
+      payment: data,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Payment initiation failed" });
+  }
+});
+
+app.post("/api/paychangu/webhook", async (req, res) => {
+  try {
+    const { status, reference, metadata } = req.body;
+
+    if (status !== "success") {
+      return res.json({ received: true });
     }
 
     const ticketId = uuidv4();
-
-    // Generate QR code as base64
     const qrCode = await QRCode.toDataURL(ticketId);
 
-    // Save ticket to DB
-    const newTicket = new Ticket({
-      fullName,
-      email,
-      institution,
-      course,
+    const ticket = new Ticket({
+      ...metadata,
       ticketId,
       qrCode,
+      status: "paid",
+      transactionId: reference,
     });
 
-    await newTicket.save();
+    await ticket.save();
 
-    // Ticket link
     const ticketLink = `https://investorsedgeafrica.onrender.com/ticket/${ticketId}`;
 
-    // Send email
     await resend.emails.send({
       from: "Event Tickets <onboarding@resend.dev>",
-      to: email,
+      to: metadata.email,
       subject: "Your Event Ticket",
       html: `
-        <h2>Hello ${fullName},</h2>
-        <p>Your ticket is ready!</p>
-        <p>Click the link below to view your QR code:</p>
-        <a href="${ticketLink}">${ticketLink}</a>
-        <br /><br />
-        <p>Or scan this QR code:</p>
+        <h2>Hello ${metadata.fullName}</h2>
+        <p>Your payment was successful.</p>
+        <a href="${ticketLink}">View Ticket</a><br/><br/>
         <img src="${qrCode}" width="250" />
       `,
     });
 
-    res.json({ success: true, ticketId, ticketLink });
+    res.json({ received: true });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to create ticket" });
+    res.status(500).send("Webhook error");
   }
 });
+
 
 // ---------------------------
 // VIEW TICKET & QR CODE (Styled)
@@ -441,19 +476,58 @@ app.get("/api/registration-config", async (req, res) => {
 // ---------------------------
 // SUMMIT INFORMATION ENDPOINT
 // ---------------------------
-app.post("/api/summit-info", async (req, res) => {
-  try {
-    const summitInfo = await SummitInfo.findOneAndUpdate({}, req.body, {
-      upsert: true,
-      new: true,
-    });
-    console.log(req.body);
-    res.json({ success: true, data: summitInfo });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to save summit info" });
+app.post(
+  "/api/summit-info",
+  upload.single("heroImage"),
+  async (req, res) => {
+    try {
+      const {
+        headline,
+        subHeadline,
+        description,
+        dateText,
+        targetDate,
+        location,
+      } = req.body;
+
+      // Parse stats (comes as string)
+      let stats = [];
+      if (req.body.stats) {
+        stats = JSON.parse(req.body.stats);
+      }
+
+      // Handle image
+      let heroImage = "";
+      if (req.file) {
+        heroImage = req.file.path; // or req.file.secure_url if using Cloudinary
+      }
+
+      const summitInfo = await SummitInfo.findOneAndUpdate(
+        {},
+        {
+          headline,
+          subHeadline,
+          description,
+          dateText,
+          targetDate,
+          location,
+          heroImage,
+          stats,
+        },
+        {
+          upsert: true,
+          new: true,
+        }
+      );
+
+      res.json({ success: true, data: summitInfo });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ success: false, error: "Failed to save summit info" });
+    }
   }
-});
+);
+
 
 // ---------------------------
 // GET SUMMIT INFORMATION ENDPOINT
