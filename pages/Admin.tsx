@@ -73,19 +73,6 @@ const Admin: React.FC = () => {
 
   // Form States
   const [messages, setMessages] = useState([]);
-  const [newSummit, setNewSummit] = useState({ 
-    headline: "",
-    subHeadline: "",
-    description: "",
-    dateText: "",
-    targetDate: "", // ISO string for countdown
-    location: "",
-    heroImage: "",
-    stats: [
-      { value: "", label: "" },
-      { value: "", label: "" },
-    ]
-  });
   const [newTestimonial, setNewTestimonial] = useState({
     author: "",
     role: "",
@@ -190,42 +177,26 @@ const Admin: React.FC = () => {
   };
 
   // Summit Info Form State
-
-    const submitSummit = async (e: React.FormEvent) => {
+  const submitSummit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!file) {
-      alert("Please select an image");
-      return;
-    }
-    const formData = new FormData();
-    formData.append("headline", summitForm.headline);
-    formData.append("subHeadline", summitForm.subHeadline);
-    formData.append("description", summitForm.description);
-    formData.append("dateText", summitForm.dateText);
-    formData.append("targetDate", summitForm.targetDate);
-    formData.append("location", summitForm.location);
-    formData.append("heroImage", file);
-    formData.append("stats", JSON.stringify(summitForm.stats));  
-
     try {
       const res = await fetch(
         "https://investorsedgeafrica.onrender.com/api/summit-info",
         {
           method: "POST",
-          body: formData,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(summitForm),
         }
       );
       const data = await res.json();
       if (data.success) {
         alert("Summit info updated!");
-        setSummitForm({ headline: "", subHeadline: "", description: "", dateText: "", targetDate: "", location: "", heroImage: "" });
       } else {
-        alert("Failed to add sponsor");
+        alert("Failed to update summit info");
       }
     } catch (err) {
       console.error(err);
-      alert("Something went wrong. Try again. rr");
+      alert("Something went wrong. Try again.");
     }
   };
 
@@ -1641,7 +1612,7 @@ const Admin: React.FC = () => {
                             className="hidden"
                             onChange={(e) => {
                               handleSummitHeroUpload;
-                              handleFileChange(
+                              handleHeroFileChange(
                                 e,
                                 setSummitForm,
                                 "heroImage"
