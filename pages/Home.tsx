@@ -338,7 +338,7 @@ const Home: React.FC = () => {
                         <div className="flex items-center gap-2 text-slate-400 text-xs mb-3 font-bold uppercase tracking-wider"><Calendar className="w-3 h-3" />{post.date}</div>
                         <h4 className="text-xl font-bold text-slate-900 mb-3 line-clamp-2 group-hover:text-brand-blue transition-colors">{post.title}</h4>
                         <p className="text-slate-500 text-sm mb-4 line-clamp-2 font-medium">{post.excerpt}</p>
-                        <Link to="/contact" className="text-brand-blue font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">Read Article <ArrowUpRight className="w-3 h-3" /></Link>
+                        <Link to={`/article/${post.id}`} className="text-brand-blue font-bold text-sm flex items-center gap-1 hover:gap-2 transition-all">Read Article <ArrowUpRight className="w-3 h-3" /></Link>
                      </div>
                   </div>
                ))}
