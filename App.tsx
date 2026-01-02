@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { DataProvider } from './context/DataContext';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import About from './pages/About';
-import Services from './pages/Services';
-import Team from './pages/Team';
-import Contact from './pages/Contact';
-import Register from './pages/Register';
-import Summit from './pages/Summit';
-import Admin from './pages/Admin';
-import ArticleDetail from './pages/ArticleDetail';
-import KnowledgeHub from './pages/KnowledgeHub';
-import { CustomCursor, Preloader } from './components/UIEffects';
+import React, { useState, useEffect } from "react";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { DataProvider } from "./context/DataContext";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Services from "./pages/Services";
+import Team from "./pages/Team";
+import Contact from "./pages/Contact";
+import Register from "./pages/Register";
+import Summit from "./pages/Summit";
+import Admin from "./pages/Admin";
+import ArticleDetail from "./pages/ArticleDetail";
+import KnowledgeHub from "./pages/KnowledgeHub";
+import { CustomCursor, Preloader } from "./components/UIEffects";
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -26,9 +26,9 @@ const App: React.FC = () => {
   // Prevent scrolling while loading
   useEffect(() => {
     if (loading) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     }
   }, [loading]);
 
@@ -41,7 +41,7 @@ const App: React.FC = () => {
           <div className="hidden md:block">
             <CustomCursor />
           </div>
-          
+
           <Router>
             <div className="flex flex-col min-h-screen font-sans text-slate-800 relative">
               <Navbar />
