@@ -11,6 +11,8 @@ import Contact from './pages/Contact';
 import Register from './pages/Register';
 import Summit from './pages/Summit';
 import Admin from './pages/Admin';
+import ArticleDetail from './pages/ArticleDetail';
+import KnowledgeHub from './pages/KnowledgeHub';
 import { CustomCursor, Preloader } from './components/UIEffects';
 
 const App: React.FC = () => {
@@ -47,6 +49,8 @@ const App: React.FC = () => {
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/summit" element={<Summit />} />
+                  <Route path="/hub" element={<KnowledgeHub />} />
+                  <Route path="/article/:id" element={<ArticleDetail />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/services" element={<Services />} />
                   <Route path="/team" element={<Team />} />
