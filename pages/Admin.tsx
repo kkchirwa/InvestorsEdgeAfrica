@@ -121,7 +121,7 @@ const Admin: React.FC = () => {
   const [summitForm, setSummitForm] = useState({});
   const [registrations, setRegistrations] = useState([]);
   const [regConfigForm, setRegConfigForm] = useState(registrationConfig);
-
+  const [previewHero, setPreviewHero] = useState<string | null>(null);
   // Message
   useEffect(() => {
     const fetchMessages = async () => {
@@ -506,6 +506,18 @@ const Admin: React.FC = () => {
     const target = e.target as HTMLInputElement & { files: FileList };
     setFile(target.files[0]);
 
+    if (fieldName === "heroImage") {
+      const conv = async () => {
+        try {
+          const base64 = await fileToBase64(file);
+          setPreviewHero(base64);
+
+        } catch (err) {
+          console.error(err);
+        }
+      };
+      conv();
+    }
     setter((prev: any) => ({
       ...prev,
       [fieldName]: file.name, // 👈 field-specific
@@ -594,7 +606,7 @@ const Admin: React.FC = () => {
     return (
       <div className="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl group cursor-default">
         <img
-          src={config.heroImage}
+          src={previewHero || config.heroImage}
           alt="Cover"
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
@@ -1628,7 +1640,7 @@ const Admin: React.FC = () => {
                     <div className="h-40 w-full rounded-xl border-2 border-dashed border-white/20 flex flex-col items-center justify-center hover:bg-white/5 transition-colors cursor-pointer overflow-hidden">
                       {summitForm.heroImage ? (
                         <img
-                          src={summitForm.heroImage}
+                          src={previewHero || summitForm.heroImage}
                           alt="Preview"
                           className="w-full h-full object-cover opacity-60"
                         />
@@ -1649,6 +1661,7 @@ const Admin: React.FC = () => {
                             className="hidden"
                             onChange={(e) => {
                               handleSummitHeroUpload;
+                              alert(previewHero);
                               handleFileChange(e, setSummitForm, "heroImage");
                             }}
                           />
