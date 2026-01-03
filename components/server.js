@@ -208,7 +208,7 @@ app.post("/api/paychangu/initiate", async (req, res) => {
         phone_number: phone,
         payment_method: method, // airtel_money | mpamba
         reference,
-        callback_url: process.env.PAYCHANGU_CALLBACK_URL,
+        callback_url: "https://investorsedgeafrica.com/#/register",
         metadata: {
           fullName,
           email,
