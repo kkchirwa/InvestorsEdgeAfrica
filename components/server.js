@@ -194,15 +194,13 @@ app.post("/api/paychangu/initiate", async (req, res) => {
 
     const reference = uuidv4();
 
-    console.log("Initiating payment with reference:", phone, method, reference);
-
     const response = await fetch("https://api.paychangu.com/mobile-money/payments/initialize", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${process.env.PAYCHANGU_SECRET_KEY}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
+      data: JSON.stringify({
         amount: 5000, // example ticket price
         currency: "MWK",
         phone_number: phone,
