@@ -197,7 +197,7 @@ app.post("/api/paychangu/initiate", async (req, res) => {
     const response = await fetch("https://api.paychangu.com/mobile-money/pay", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.PAYCHANGU_SECRET_KEY}`,
+        Authorization: `Bearer ${process.env.PAYCHANGU_SECRET_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -229,11 +229,23 @@ app.post("/api/paychangu/initiate", async (req, res) => {
   }
 });
 
-app.post("/api/paychangu/webhook", async (req, res) => {
+app.post("/api/paychangu/webhook", express.json(), async (req, res) => {
   try {
+    const signature = req.headers["x-paychangu-signature"];
+
+    if (signature !== process.env.PAYCHANGU_WEBHOOK_SECRET) {
+      return res.status(401).json({ error: "Invalid signature" });
+    }
+
     const { status, reference, metadata } = req.body;
 
-    if (status !== "success") {
+    if (status?.toLowerCase() !== "success") {
+      return res.json({ received: true });
+    }
+
+    // prevent duplicates
+    const exists = await Ticket.findOne({ transactionId: reference });
+    if (exists) {
       return res.json({ received: true });
     }
 
@@ -250,18 +262,18 @@ app.post("/api/paychangu/webhook", async (req, res) => {
 
     await ticket.save();
 
-    const ticketLink = `https://investorsedgeafrica.onrender.com/ticket/${ticketId}`;
+    const ticketLink = `https://investorsedgeafrica-server.onrender.com/ticket/${ticketId}`;
 
     await resend.emails.send({
       from: "Event Tickets <onboarding@resend.dev>",
       to: metadata.email,
       subject: "Your Event Ticket",
       html: `
-        <h2>Hello ${metadata.fullName}</h2>
-        <p>Your payment was successful.</p>
-        <a href="${ticketLink}">View Ticket</a><br/><br/>
-        <img src="${qrCode}" width="250" />
-      `,
+          <h2>Hello ${metadata.fullName}</h2>
+          <p>Your payment was successful.</p>
+          <a href="${ticketLink}">View Ticket</a><br/><br/>
+          <img src="${qrCode}" width="250" />
+        `,
     });
 
     res.json({ received: true });
@@ -270,7 +282,6 @@ app.post("/api/paychangu/webhook", async (req, res) => {
     res.status(500).send("Webhook error");
   }
 });
-
 
 // ---------------------------
 // VIEW TICKET & QR CODE (Styled)
@@ -476,58 +487,55 @@ app.get("/api/registration-config", async (req, res) => {
 // ---------------------------
 // SUMMIT INFORMATION ENDPOINT
 // ---------------------------
-app.post(
-  "/api/summit-info",
-  upload.single("heroImage"),
-  async (req, res) => {
-    try {
-      const {
+app.post("/api/summit-info", upload.single("heroImage"), async (req, res) => {
+  try {
+    const {
+      headline,
+      subHeadline,
+      description,
+      dateText,
+      targetDate,
+      location,
+    } = req.body;
+
+    // Parse stats (comes as string)
+    let stats = [];
+    if (req.body.stats) {
+      stats = JSON.parse(req.body.stats);
+    }
+
+    // Handle image
+    let heroImage = "";
+    if (req.file) {
+      heroImage = req.file.path; // or req.file.secure_url if using Cloudinary
+    }
+
+    const summitInfo = await SummitInfo.findOneAndUpdate(
+      {},
+      {
         headline,
         subHeadline,
         description,
         dateText,
         targetDate,
         location,
-      } = req.body;
-
-      // Parse stats (comes as string)
-      let stats = [];
-      if (req.body.stats) {
-        stats = JSON.parse(req.body.stats);
+        heroImage,
+        stats,
+      },
+      {
+        upsert: true,
+        new: true,
       }
+    );
 
-      // Handle image
-      let heroImage = "";
-      if (req.file) {
-        heroImage = req.file.path; // or req.file.secure_url if using Cloudinary
-      }
-
-      const summitInfo = await SummitInfo.findOneAndUpdate(
-        {},
-        {
-          headline,
-          subHeadline,
-          description,
-          dateText,
-          targetDate,
-          location,
-          heroImage,
-          stats,
-        },
-        {
-          upsert: true,
-          new: true,
-        }
-      );
-
-      res.json({ success: true, data: summitInfo });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ success: false, error: "Failed to save summit info" });
-    }
+    res.json({ success: true, data: summitInfo });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ success: false, error: "Failed to save summit info" });
   }
-);
-
+});
 
 // ---------------------------
 // GET SUMMIT INFORMATION ENDPOINT
