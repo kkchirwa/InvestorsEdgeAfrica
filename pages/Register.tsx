@@ -55,8 +55,8 @@ const Register: React.FC = () => {
         }
       );
 
+      alert(JSON.stringify({ ...formData, phone, method }));
       const data = await res.json();
-
       if (data.success) {
         setPaymentStatus("waiting");
       } else {

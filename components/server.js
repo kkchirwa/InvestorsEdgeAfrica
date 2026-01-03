@@ -194,6 +194,8 @@ app.post("/api/paychangu/initiate", async (req, res) => {
 
     const reference = uuidv4();
 
+    console.log("Initiating payment with reference:", phone, method, reference);
+
     const response = await fetch("https://api.paychangu.com/mobile-money/pay", {
       method: "POST",
       headers: {
