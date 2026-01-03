@@ -196,7 +196,7 @@ app.post("/api/paychangu/initiate", async (req, res) => {
 
     console.log("Initiating payment with reference:", phone, method, reference);
 
-    const response = await fetch("https://api.paychangu.com/mobile-money/pay", {
+    const response = await fetch("https://api.paychangu.com/mobile-money/payments/initialize", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${process.env.PAYCHANGU_SECRET_KEY}`,
