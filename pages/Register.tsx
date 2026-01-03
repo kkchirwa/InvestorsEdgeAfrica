@@ -24,34 +24,117 @@ const Register: React.FC = () => {
     course: "",
   });
   const [status, setStatus] = useState<"idle" | "sending" | "success">("idle");
+  const [showPayment, setShowPayment] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [method, setMethod] = useState<"airtel_money" | "mpamba">(
+    "airtel_money"
+  );
+  const [paymentStatus, setPaymentStatus] = useState<
+    "idle" | "initiating" | "waiting"
+  >("idle");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setShowPayment(true);
+  };
+
+  const handlePayment = async () => {
     try {
-      const res = await fetch("https://investorsedgeafrica-server.onrender.com/api/tickets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      
+      setPaymentStatus("initiating");
+
+      const res = await fetch(
+        "https://investorsedgeafrica-server.onrender.com/api/paychangu/initiate",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...formData,
+            phone,
+            method,
+          }),
+        }
+      );
+
       const data = await res.json();
-      alert(data);
+
       if (data.success) {
-        setStatus("success");
-        addRegistration(data.ticket);
-        alert("Registration successful!");
+        setPaymentStatus("waiting");
       } else {
-        alert("Failed to register ticket");
+        alert("Payment failed to start");
+        setPaymentStatus("idle");
       }
     } catch (err) {
       console.error(err);
-      alert("Something went wrong. Try again.");
+      alert("Payment error");
+      setPaymentStatus("idle");
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  // 🔹 PAYMENT PAGE (HIGHEST PRIORITY)
+  if (showPayment) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
+          <h2 className="text-2xl font-bold mb-4">Complete Payment</h2>
+
+          <label className="block text-sm font-bold mb-2">Mobile Number</label>
+          <input
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="e.g. 0999XXXXXX"
+            className="w-full p-4 border rounded-xl mb-4"
+          />
+
+          <label className="block text-sm font-bold mb-2">Payment Method</label>
+
+          <div className="flex gap-4 mb-6">
+            <button
+              onClick={() => setMethod("airtel_money")}
+              className={`flex-1 p-4 rounded-xl font-bold ${
+                method === "airtel_money"
+                  ? "bg-brand-blue text-white"
+                  : "bg-slate-100"
+              }`}
+            >
+              Airtel Money
+            </button>
+
+            <button
+              onClick={() => setMethod("mpamba")}
+              className={`flex-1 p-4 rounded-xl font-bold ${
+                method === "mpamba"
+                  ? "bg-brand-blue text-white"
+                  : "bg-slate-100"
+              }`}
+            >
+              Mpamba
+            </button>
+          </div>
+
+          {paymentStatus === "waiting" ? (
+            <div className="text-center">
+              <Loader2 className="animate-spin mx-auto mb-4" />
+              <p className="font-bold">Waiting for payment confirmation…</p>
+              <p className="text-sm text-slate-500">
+                Enter your PIN on your phone
+              </p>
+            </div>
+          ) : (
+            <button
+              onClick={handlePayment}
+              className="w-full py-4 bg-brand-blue text-white rounded-xl font-bold"
+            >
+              Pay Now
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   if (status === "success") {
     return (
