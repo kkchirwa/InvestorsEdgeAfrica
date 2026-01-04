@@ -32,12 +32,6 @@ const SpotlightCard: React.FC<{ children: React.ReactNode; className?: string }>
   );
 };
 
-// Infinite Marquee Component
-const InfiniteMarquee = () => {
-  const items = [
-    "YOUTH LED", "INNOVATION", "CAPITAL", "GROWTH", "SADC REGION", "FINTECH", "AGRITECH", "FUTURE", "IMPACT"
-  ];
-  
   return (
     <div className="relative w-full overflow-hidden bg-brand-dark py-4 rotate-[-2deg] scale-110 mb-20 border-y border-white/10 shadow-2xl z-20 will-change-transform">
       <div className="flex animate-marquee whitespace-nowrap">
