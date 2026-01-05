@@ -32,6 +32,12 @@ const SpotlightCard: React.FC<{ children: React.ReactNode; className?: string }>
   );
 };
 
+// Infinite Marquee Component
+const InfiniteMarquee = () => {
+  const items = [
+    "YOUTH LED", "INNOVATION", "CAPITAL", "GROWTH", "SADC REGION", "FINTECH", "AGRITECH", "FUTURE", "IMPACT"
+  ];
+  
   return (
     <div className="relative w-full overflow-hidden bg-brand-dark py-4 rotate-[-2deg] scale-110 mb-20 border-y border-white/10 shadow-2xl z-20 will-change-transform">
       <div className="flex animate-marquee whitespace-nowrap">
@@ -186,10 +192,16 @@ const Home: React.FC = () => {
                 </Link>
             </Magnetic>
             <Magnetic>
-                <Link to="/register" className="ios-glass inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-full text-slate-800 hover:bg-white transition-all border border-white/50">
-                Join Summit
-                </Link>
-            </Magnetic>
+  <a
+    href="https://www.ulinzinga.com/ev-GKosnwjQ"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="ios-glass inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-full text-slate-800 hover:bg-white transition-all border border-white/50"
+  >
+    Join Summit
+  </a>
+</Magnetic>
+
           </div>
         </div>
       </section>
@@ -349,9 +361,17 @@ const Home: React.FC = () => {
              
              <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-8 tracking-tight relative z-10">Ready to <span className="text-brand-blue">Scale?</span></h2>
              <div className="flex justify-center flex-col sm:flex-row gap-6 relative z-10">
-                <Magnetic>
-                    <Link to="/register" className="px-10 py-4 bg-brand-blue text-white rounded-full font-bold text-lg hover:bg-blue-800 transition shadow-xl hover:-translate-y-1 hover:shadow-2xl flex items-center justify-center gap-2">Get Started <Sparkles className="w-5 h-5 text-brand-yellow" /></Link>
-                </Magnetic>
+               <Magnetic>
+  <a
+    href="https://www.ulinzinga.com/ev-GKosnwjQ"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="px-10 py-4 bg-brand-blue text-white rounded-full font-bold text-lg hover:bg-blue-800 transition shadow-xl hover:-translate-y-1 hover:shadow-2xl flex items-center justify-center gap-2"
+  >
+    Get Started <Sparkles className="w-5 h-5 text-brand-yellow" />
+  </a>
+</Magnetic>
+
                 <Magnetic>
                     <Link to="/contact" className="px-10 py-4 bg-white border border-slate-200 text-slate-900 rounded-full font-bold text-lg hover:bg-slate-50 transition hover:-translate-y-1 shadow-sm">Contact Us</Link>
                 </Magnetic>
